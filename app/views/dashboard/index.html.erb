@@ -7,4 +7,6 @@
             We are using Rails version <%=Rails.version%>
             </h2>
     </header>
-
+    <section>
+        <%= link_to "Log Out", destroy_user_session_path, method: :delete%>
+        </section>

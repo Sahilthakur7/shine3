@@ -38,7 +38,6 @@ CREATE TABLE customers (
     first_name character varying NOT NULL,
     last_name character varying NOT NULL,
     email character varying NOT NULL,
-    string character varying NOT NULL,
     username character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -91,7 +90,9 @@ CREATE TABLE users (
     last_sign_in_ip inet,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    CONSTRAINT email_must_be_company_email CHECK (((email)::text ~* '^[^@]+@example.com'::text))
+    CONSTRAINT email_must_be_com_email CHECK (((email)::text ~* '^[^@]+@example\.com'::text)),
+    CONSTRAINT email_must_be_comp_email CHECK (((email)::text ~* '^[^@]+@example\.com'::text)),
+    CONSTRAINT email_must_be_company_email CHECK (((email)::text ~* '^[^@]+@example\.com'::text))
 );
 
 
@@ -145,6 +146,27 @@ ALTER TABLE ONLY users
 
 
 --
+-- Name: customers_lower_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX customers_lower_email ON customers USING btree (lower((email)::text));
+
+
+--
+-- Name: customers_lower_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX customers_lower_first_name ON customers USING btree (lower((first_name)::text) varchar_pattern_ops);
+
+
+--
+-- Name: customers_lower_last_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX customers_lower_last_name ON customers USING btree (lower((last_name)::text) varchar_pattern_ops);
+
+
+--
 -- Name: index_customers_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -190,4 +212,14 @@ INSERT INTO schema_migrations (version) VALUES ('20170529070907');
 INSERT INTO schema_migrations (version) VALUES ('20170529111542');
 
 INSERT INTO schema_migrations (version) VALUES ('20170529112842');
+
+INSERT INTO schema_migrations (version) VALUES ('20170530071740');
+
+INSERT INTO schema_migrations (version) VALUES ('20170530072108');
+
+INSERT INTO schema_migrations (version) VALUES ('20170530084246');
+
+INSERT INTO schema_migrations (version) VALUES ('20170530085133');
+
+INSERT INTO schema_migrations (version) VALUES ('20170531060736');
 
